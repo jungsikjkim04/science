@@ -23,6 +23,12 @@ type ComparisonProps = {
   highlighted?: boolean;
 };
 
+type ClassificationProps = {
+  confidence: string;
+  correct: string;
+  incorrect: string;
+};
+
 const problems: CardProps[] = [
   {
     title: "오답 원인을 모름",
@@ -43,9 +49,9 @@ const problems: CardProps[] = [
 
 const features: CardProps[] = [
   {
-    title: "확신도 분석",
+    title: "확신도 체크",
     description:
-      "문항마다 학생이 얼마나 확신했는지 기록해 자기 판단과 실제 결과의 차이를 확인합니다.",
+      "답을 고른 뒤 이 답에 얼마나 확신이 있는지 체크해 자기 판단과 실제 결과의 차이를 확인합니다.",
   },
   {
     title: "오답 원인 분류",
@@ -69,7 +75,7 @@ const flowSteps: FlowStepProps[] = [
     number: "01",
     title: "진단",
     description:
-      "통합과학 문항을 풀고 확신도와 체감 난도를 함께 기록합니다.",
+      "통합과학 문항의 답을 고른 뒤 확신도 체크와 체감 난도를 함께 기록합니다.",
   },
   {
     number: "02",
@@ -80,7 +86,8 @@ const flowSteps: FlowStepProps[] = [
   {
     number: "03",
     title: "보완",
-    description: "가장 위험한 약점부터 복습 우선순위를 정합니다.",
+    description:
+      "가장 위험한 약점부터 복습 우선순위를 정합니다.",
   },
   {
     number: "04",
@@ -107,7 +114,7 @@ const steps: StepProps[] = [
     number: "02",
     title: "진단",
     description:
-      "통합과학 문항을 풀고, 문항별 확신도와 오답 원인을 체크합니다.",
+      "통합과학 문항을 풀고 답을 고른 뒤, 문항별 확신도와 오답 원인을 체크합니다.",
   },
   {
     number: "03",
@@ -150,6 +157,35 @@ const actionItems = [
   "문제 풀이 후 정답 근거를 직접 표시",
   "확신하고 틀린 문항은 3일 뒤 재풀이",
   "2주 후 같은 유형으로 재진단",
+];
+
+const classifications: ClassificationProps[] = [
+  { confidence: "확실함", correct: "안정 이해", incorrect: "안다고 착각" },
+  { confidence: "애매함", correct: "부분 이해", incorrect: "보완 필요" },
+  { confidence: "거의 찍음", correct: "불안정 정답", incorrect: "실제 약점" },
+];
+
+const predictionBridge: CardProps[] = [
+  {
+    title: "내신 범위",
+    description:
+      "학교별 시험 범위와 단원 흐름을 기준으로 현재 점검해야 할 학습 구간을 정리합니다.",
+  },
+  {
+    title: "출제 가능 유형",
+    description:
+      "해당 범위에서 중요하게 다뤄질 가능성이 높은 개념 적용, 자료 해석, 조건 판단 유형을 살펴봅니다.",
+  },
+  {
+    title: "학생 약점",
+    description:
+      "확신도 체크와 오답 원인 기록을 통해 학생 개인이 반복해서 흔들리는 지점을 확인합니다.",
+  },
+  {
+    title: "개인별 복습 우선순위",
+    description:
+      "범위와 유형, 개인 약점을 함께 고려해 가장 먼저 보완해야 할 학습 순서를 제시합니다.",
+  },
 ];
 
 function SectionHeading({
@@ -292,6 +328,38 @@ function ActionItem({ text }: { text: string }) {
   );
 }
 
+function ClassificationTable() {
+  return (
+    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm shadow-slate-200/70">
+      <div className="border-b border-slate-200 bg-slate-50 px-5 py-4 sm:px-6">
+        <p className="text-sm font-bold text-blue-700">확신도 체크 기준</p>
+        <h3 className="mt-2 text-xl font-bold text-slate-950">
+          “이 답에 얼마나 확신이 있나요?”
+        </h3>
+        <p className="mt-2 text-sm leading-7 text-slate-600">
+          학생에게 풀이 전 가능 여부를 묻지 않습니다. 답을 선택한 뒤 확신도를
+          체크하고, 정오 결과와 함께 학습 상태를 분류합니다.
+        </p>
+      </div>
+      <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-500 sm:px-6">
+        <span>확신도</span>
+        <span>정답일 때</span>
+        <span>오답일 때</span>
+      </div>
+      {classifications.map((item) => (
+        <div
+          key={item.confidence}
+          className="grid grid-cols-[1fr_1fr_1fr] gap-2 border-b border-slate-100 px-4 py-4 text-sm last:border-b-0 sm:px-6 sm:text-base"
+        >
+          <span className="font-bold text-slate-950">{item.confidence}</span>
+          <span className="font-semibold text-blue-700">{item.correct}</span>
+          <span className="font-semibold text-slate-700">{item.incorrect}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="bg-white text-slate-900">
@@ -399,11 +467,52 @@ export default function Home() {
           <SectionHeading
             eyebrow="진단"
             title="진단이 끝나면, 복습 방향이 달라집니다."
-            description="학생은 진단 문항을 풀고 확신도, 정오 여부, 체감 난도, 오답 원인을 기록합니다. 이후 리포트는 정답률 뒤에 가려진 착각 구간, 취약 단원, 취약 문항 유형, 복습 우선순위를 보여줍니다."
+            description="학생은 진단 문항의 답을 고른 뒤 확신도 체크, 정오 여부, 체감 난도, 오답 원인을 기록합니다. 이후 리포트는 정답률 뒤에 가려진 착각 구간, 취약 단원, 취약 문항 유형, 복습 우선순위를 보여줍니다."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature) => (
               <FeatureCard key={feature.title} {...feature} />
+            ))}
+          </div>
+          <div className="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="rounded-3xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+              <p className="text-sm font-bold text-blue-700">
+                답을 고른 뒤 체크합니다
+              </p>
+              <h3 className="mt-3 text-2xl font-bold leading-tight text-slate-950">
+                풀이 전 질문이 아니라, 선택한 답에 대한 확신도를 봅니다.
+              </h3>
+              <p className="mt-4 text-base leading-8 text-slate-700">
+                진단 문항을 풀기 전에 “풀 수 있나요?”라고 묻지 않습니다.
+                학생이 답을 선택한 뒤 “이 답에 얼마나 확신이 있나요?”를
+                체크하게 하고, 그 결과를 정답 여부와 함께 해석합니다.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {["확실함", "애매함", "거의 찍음"].map((option) => (
+                  <span
+                    key={option}
+                    className="rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-bold text-blue-700"
+                  >
+                    {option}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <ClassificationTable />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+          <SectionHeading
+            eyebrow="다음 확장 방향"
+            title="출제 가능 유형 분석과 개인 약점을 함께 연결합니다."
+            description="단순히 나올 문제를 예측하는 것이 아니라, 출제 가능성이 높은 유형과 학생 개인의 약점을 결합해 가장 먼저 보완해야 할 학습 순서를 제시합니다. 이 방향은 향후 내신 범위와 수능형 통합과학 학습을 더 세밀하게 연결하기 위한 구조입니다."
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {predictionBridge.map((item) => (
+              <FeatureCard key={item.title} {...item} />
             ))}
           </div>
         </div>
