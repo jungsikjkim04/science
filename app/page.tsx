@@ -94,21 +94,37 @@ function SectionHeading({
   eyebrow,
   title,
   description,
+  inverse = false,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
+  inverse?: boolean;
 }) {
   return (
     <div className="max-w-3xl">
       {eyebrow ? (
-        <p className="text-sm font-bold text-blue-700">{eyebrow}</p>
+        <p
+          className={`text-sm font-bold ${
+            inverse ? "text-blue-200" : "text-blue-700"
+          }`}
+        >
+          {eyebrow}
+        </p>
       ) : null}
-      <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+      <h2
+        className={`mt-3 text-3xl font-bold leading-tight tracking-normal sm:text-4xl ${
+          inverse ? "text-white" : "text-slate-950"
+        }`}
+      >
         {title}
       </h2>
       {description ? (
-        <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+        <p
+          className={`mt-5 text-base leading-8 sm:text-lg ${
+            inverse ? "text-blue-50/75" : "text-slate-600"
+          }`}
+        >
           {description}
         </p>
       ) : null}
@@ -118,8 +134,8 @@ function SectionHeading({
 
 function ProblemCard({ title, description }: CardProps) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">
+    <article className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/70">
+      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
         !
       </div>
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
@@ -130,7 +146,7 @@ function ProblemCard({ title, description }: CardProps) {
 
 function FeatureCard({ title, description }: CardProps) {
   return (
-    <article className="rounded-2xl border border-blue-100 bg-blue-50/70 p-6">
+    <article className="rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-sm shadow-blue-100/60">
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
     </article>
@@ -139,7 +155,7 @@ function FeatureCard({ title, description }: CardProps) {
 
 function MetricCard({ label, value, note }: MetricProps) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
       <dt className="text-sm font-semibold text-slate-500">{label}</dt>
       <dd className="mt-2 text-2xl font-bold text-blue-700">{value}</dd>
       <p className="mt-2 text-xs font-medium text-slate-400">{note}</p>
@@ -149,7 +165,7 @@ function MetricCard({ label, value, note }: MetricProps) {
 
 function StepCard({ number, title, description }: StepProps) {
   return (
-    <article className="rounded-2xl border border-white/15 bg-white/[0.07] p-6">
+    <article className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-sm shadow-black/10">
       <p className="text-sm font-bold text-blue-200">{number}</p>
       <h3 className="mt-5 text-xl font-bold text-white">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-blue-50/80">{description}</p>
@@ -160,13 +176,13 @@ function StepCard({ number, title, description }: StepProps) {
 export default function Home() {
   return (
     <main className="bg-white text-slate-900">
-      <section className="border-b border-slate-100">
-        <div className="mx-auto grid min-h-[720px] max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10">
+      <section className="border-b border-slate-100 bg-gradient-to-b from-blue-50/70 via-white to-white">
+        <div className="mx-auto grid min-h-[720px] max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-24">
           <div>
-            <p className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700">
+            <p className="inline-flex rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-bold text-blue-700 shadow-sm shadow-blue-100/80">
               고1·고2 대상 통합과학 메타인지 진단 파일럿
             </p>
-            <h1 className="mt-7 text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-7 max-w-3xl text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
               통합과학 내신, 점수만 보고 끝내고 있나요?
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
@@ -176,13 +192,13 @@ export default function Home() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#apply"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-blue-700 px-6 text-base font-bold text-white shadow-sm transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                className="inline-flex min-h-[52px] items-center justify-center rounded-xl bg-blue-700 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
               >
                 진단 파일럿 신청하기
               </a>
               <a
                 href="#report"
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-base font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                className="inline-flex min-h-[52px] items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
               >
                 리포트 예시 보기
               </a>
@@ -191,9 +207,9 @@ export default function Home() {
 
           <aside
             aria-label="진단 리포트 요약 예시"
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm sm:p-6"
+            className="rounded-[1.75rem] border border-slate-200 bg-white/80 p-3 shadow-2xl shadow-blue-100/70 backdrop-blur sm:p-5"
           >
-            <div className="rounded-2xl bg-white p-5 shadow-sm">
+            <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
               <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-5">
                 <div>
                   <p className="text-sm font-bold text-blue-700">
@@ -207,12 +223,12 @@ export default function Home() {
                   예시
                 </span>
               </div>
-              <dl className="mt-5 grid grid-cols-2 gap-3">
+              <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {metrics.slice(0, 2).map((metric) => (
                   <MetricCard key={metric.label} {...metric} />
                 ))}
               </dl>
-              <div className="mt-5 rounded-2xl bg-blue-50 p-5">
+              <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-5">
                 <p className="text-sm font-bold text-blue-900">
                   우선 확인할 약점
                 </p>
@@ -227,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-20">
+      <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="문제"
@@ -242,7 +258,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="진단"
@@ -257,14 +273,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="report" className="bg-slate-50 py-20">
+      <section id="report" className="bg-slate-50 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:px-10">
           <SectionHeading
             eyebrow="리포트 예시"
             title="리포트는 점수표가 아니라 학습 방향표입니다."
             description="학부모와 학생이 같은 기준으로 약점을 확인할 수 있도록, 수치와 해석을 함께 제공합니다."
           />
-          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70 sm:p-8">
             <div className="flex flex-col gap-2 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-sm font-bold text-blue-700">
@@ -283,7 +299,7 @@ export default function Home() {
                 <MetricCard key={metric.label} {...metric} />
               ))}
             </dl>
-            <p className="mt-6 rounded-2xl bg-blue-50 p-5 text-sm leading-7 text-slate-700 sm:text-base sm:leading-8">
+            <p className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm leading-7 text-slate-700 sm:p-6 sm:text-base sm:leading-8">
               전체 정답률은 68%입니다. 다만 확신도 높은 오답 비율이 32%로
               나타났습니다. 이는 학생이 일부 개념을 알고 있다고 느끼지만,
               실제 문제 적용에서는 흔들릴 가능성이 있다는 의미입니다. 특히
@@ -295,11 +311,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-950 py-20">
+      <section className="bg-slate-950 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="파일럿 진행"
             title="파일럿은 이렇게 진행됩니다."
+            inverse
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {steps.map((step) => (
@@ -309,14 +326,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading title="이런 학생에게 적합합니다." />
           <ul className="mt-8 grid gap-4 md:grid-cols-2">
             {targets.map((target) => (
               <li
                 key={target}
-                className="rounded-2xl border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700 shadow-sm"
+                className="rounded-2xl border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700 shadow-sm shadow-slate-200/50"
               >
                 <span className="mr-2 font-bold text-blue-700">확인</span>
                 {target}
@@ -326,7 +343,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="apply" className="border-t border-slate-100 bg-blue-50 py-20">
+      <section id="apply" className="border-t border-blue-100 bg-gradient-to-b from-blue-50 to-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
           <h2 className="text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
             통합과학 공부를 시작하기 전, 현재 약점과 복습 우선순위를 먼저
@@ -338,7 +355,7 @@ export default function Home() {
           </p>
           <a
             href="/apply"
-            className="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-blue-700 px-6 text-base font-bold text-white shadow-sm transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
+            className="mt-8 inline-flex min-h-[52px] items-center justify-center rounded-xl bg-blue-700 px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
           >
             진단 파일럿 신청하기
           </a>
