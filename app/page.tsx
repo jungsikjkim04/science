@@ -15,6 +15,14 @@ type StepProps = {
   description: string;
 };
 
+type FlowStepProps = StepProps;
+
+type ComparisonProps = {
+  title: string;
+  items: string[];
+  highlighted?: boolean;
+};
+
 const problems: CardProps[] = [
   {
     title: "오답 원인을 모름",
@@ -29,7 +37,7 @@ const problems: CardProps[] = [
   {
     title: "복습 우선순위가 없음",
     description:
-      "틀린 문제를 모두 똑같이 다시 보며, 가장 위험한 약점부터 처리하지 못합니다.",
+      "틀린 문제를 모두 똑같이 다시 보며, 실제 점수 향상에 필요한 약점부터 처리하지 못합니다.",
   },
 ];
 
@@ -50,27 +58,35 @@ const features: CardProps[] = [
       "맞았다고 믿었지만 실제로는 틀린 문항을 찾아 가장 위험한 착각 구간을 드러냅니다.",
   },
   {
-    title: "내신-수능 연결 복습",
+    title: "복습 우선순위 제시",
     description:
-      "학교 시험 오답을 단순히 넘기지 않고, 수능형 통합과학 학습에 필요한 복습 우선순위로 바꿉니다.",
+      "모든 오답을 같은 무게로 보지 않고, 점수 향상에 필요한 복습 순서를 정리합니다.",
   },
 ];
 
-const contextCards: CardProps[] = [
+const flowSteps: FlowStepProps[] = [
   {
-    title: "현재 내신",
+    number: "01",
+    title: "진단",
     description:
-      "학교 시험에서 개념 이해, 자료 해석, 조건 파악 능력이 드러납니다.",
+      "통합과학 문항을 풀고 확신도와 체감 난도를 함께 기록합니다.",
   },
   {
-    title: "2028 이후 수능",
+    number: "02",
+    title: "분석",
     description:
-      "통합과학은 선택 과목이 아니라 공통적으로 대비해야 할 탐구 학습의 기반이 됩니다.",
+      "정답률뿐 아니라 고확신 오답, 오답 원인, 취약 유형을 확인합니다.",
   },
   {
-    title: "메타인지 진단",
+    number: "03",
+    title: "보완",
+    description: "가장 위험한 약점부터 복습 우선순위를 정합니다.",
+  },
+  {
+    number: "04",
+    title: "재진단",
     description:
-      "점수보다 중요한 것은 학생이 무엇을 알고, 무엇을 안다고 착각하는지 확인하는 것입니다.",
+      "같은 유형에서 실수가 줄었는지 확인하며 학습 방향을 조정합니다.",
   },
 ];
 
@@ -101,9 +117,9 @@ const steps: StepProps[] = [
   },
   {
     number: "04",
-    title: "복습 방향",
+    title: "보완",
     description:
-      "내신 오답을 수능형 통합과학 학습으로 연결할 수 있도록 우선순위를 정리합니다.",
+      "리포트에 따라 우선순위가 높은 유형부터 복습하고, 이후 재진단으로 개선 여부를 확인합니다.",
   },
 ];
 
@@ -113,6 +129,27 @@ const targets = [
   "오답을 ‘실수’라고 넘기지만 비슷한 문제를 반복해서 틀리는 학생",
   "내신 통합과학을 수능형 학습으로 연결하고 싶은 학생",
   "학부모가 자녀의 약점과 복습 우선순위를 구체적으로 알고 싶은 경우",
+];
+
+const beforeItems = [
+  "점수만 확인하고 넘어감",
+  "오답을 전부 실수라고 생각함",
+  "틀린 문제를 무작정 다시 풂",
+  "내신과 수능형 약점이 연결되지 않음",
+];
+
+const afterItems = [
+  "확신하고 틀린 문제를 따로 확인함",
+  "오답 원인을 개념·자료 해석·조건 누락으로 구분함",
+  "가장 위험한 약점부터 복습함",
+  "내신 오답을 수능형 학습 방향으로 연결함",
+];
+
+const actionItems = [
+  "에너지 전환 관련 자료 해석형 문항 우선 복습",
+  "문제 풀이 후 정답 근거를 직접 표시",
+  "확신하고 틀린 문항은 3일 뒤 재풀이",
+  "2주 후 같은 유형으로 재진단",
 ];
 
 function SectionHeading({
@@ -159,10 +196,8 @@ function SectionHeading({
 
 function ProblemCard({ title, description }: CardProps) {
   return (
-    <article className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/70">
-      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
-        !
-      </div>
+    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/70">
+      <div className="mb-5 h-1.5 w-12 rounded-full bg-blue-600" />
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
     </article>
@@ -171,17 +206,20 @@ function ProblemCard({ title, description }: CardProps) {
 
 function FeatureCard({ title, description }: CardProps) {
   return (
-    <article className="rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-sm shadow-blue-100/60">
+    <article className="flex h-full flex-col rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-sm shadow-blue-100/60">
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
     </article>
   );
 }
 
-function ContextCard({ title, description }: CardProps) {
+function FlowStep({ number, title, description }: FlowStepProps) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50">
-      <h3 className="text-lg font-bold text-slate-950">{title}</h3>
+    <article className="relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50">
+      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-700 text-sm font-bold text-white">
+        {number}
+      </div>
+      <h3 className="text-xl font-bold text-slate-950">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
     </article>
   );
@@ -199,11 +237,58 @@ function MetricCard({ label, value, note }: MetricProps) {
 
 function StepCard({ number, title, description }: StepProps) {
   return (
-    <article className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-sm shadow-black/10">
-      <p className="text-sm font-bold text-blue-200">{number}</p>
+    <article className="flex h-full flex-col rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-sm shadow-black/10">
+      <p className="text-sm font-bold tabular-nums text-blue-200">{number}</p>
       <h3 className="mt-5 text-xl font-bold text-white">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-blue-50/80">{description}</p>
     </article>
+  );
+}
+
+function ComparisonCard({ title, items, highlighted = false }: ComparisonProps) {
+  return (
+    <article
+      className={`rounded-3xl border p-6 shadow-sm sm:p-8 ${
+        highlighted
+          ? "border-blue-200 bg-blue-50 shadow-blue-100/70"
+          : "border-slate-200 bg-white shadow-slate-200/60"
+      }`}
+    >
+      <h3
+        className={`text-2xl font-bold ${
+          highlighted ? "text-blue-900" : "text-slate-950"
+        }`}
+      >
+        {title}
+      </h3>
+      <ul className="mt-6 space-y-4">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-base leading-7 text-slate-700">
+            <span
+              className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                highlighted
+                  ? "bg-blue-700 text-white"
+                  : "bg-slate-100 text-slate-500"
+              }`}
+            >
+              {highlighted ? "✓" : "·"}
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
+function ActionItem({ text }: { text: string }) {
+  return (
+    <li className="flex gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+      <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-xs font-bold text-white">
+        ✓
+      </span>
+      <span>{text}</span>
+    </li>
   );
 }
 
@@ -217,23 +302,23 @@ export default function Home() {
               고1·고2 대상 통합과학 메타인지 진단
             </p>
             <h1 className="mt-7 max-w-3xl text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
-              통합과학, 내신 점수만 보고 끝내고 있나요?
+              통합과학, 점수만 보고 끝내지 마세요.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
               문제별 확신도와 오답 원인을 분석해, 아이가 안다고 착각하는
-              개념과 자료 해석 약점을 찾아드립니다. 내신 대비를 넘어 2028
-              이후 수능형 통합과학 학습까지 연결합니다.
+              개념과 자료 해석 약점을 찾아냅니다. 약점을 정확히 알아야 내신과
+              수능형 통합과학 성적 향상으로 이어지는 복습이 가능합니다.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">
               <a
                 href="#apply"
-                className="inline-flex min-h-[52px] items-center justify-center rounded-xl bg-blue-700 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                className="inline-flex min-h-[52px] w-full items-center justify-center rounded-xl bg-blue-700 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
               >
                 진단 신청하기
               </a>
               <a
                 href="#report"
-                className="inline-flex min-h-[52px] items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                className="inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100 sm:w-auto"
               >
                 리포트 예시 보기
               </a>
@@ -281,13 +366,14 @@ export default function Home() {
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
-            eyebrow="학습 맥락"
-            title="통합과학은 이제 내신만의 문제가 아닙니다."
-            description="통합과학은 이미 고등학교 내신에서 중요한 공통 과목입니다. 동시에 2028학년도 이후 수능 체제에서는 통합사회·통합과학이 탐구 영역의 핵심 과목으로 연결됩니다. 따라서 지금의 통합과학 오답은 단순한 내신 실수가 아니라, 앞으로의 수능형 학습 습관과도 이어질 수 있습니다."
+            eyebrow="학습 개선 흐름"
+            title="성적 향상은 ‘더 많이 푸는 것’보다 ‘무엇을 보완할지 아는 것’에서 시작됩니다."
+            description="같은 점수를 받은 학생이라도 원인은 다를 수 있습니다. 어떤 학생은 개념이 부족하고, 어떤 학생은 자료 해석에서 흔들리며, 어떤 학생은 안다고 확신한 문제를 반복해서 틀립니다. 이 서비스는 정답률 뒤에 숨어 있는 학습 문제를 찾아내고, 다음 복습 방향으로 연결합니다."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {contextCards.map((card) => (
-              <ContextCard key={card.title} {...card} />
+          <div className="relative mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="absolute left-8 right-8 top-11 hidden h-px bg-blue-100 lg:block" />
+            {flowSteps.map((step) => (
+              <FlowStep key={step.number} {...step} />
             ))}
           </div>
         </div>
@@ -298,7 +384,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="문제"
             title="정답률보다 중요한 것은 확신하고 틀린 문제입니다."
-            description="많은 학생은 통합과학 시험이 끝난 뒤 점수만 확인합니다. 하지만 같은 68점이라도 학생의 상태는 다를 수 있습니다. 몰라서 틀린 학생과, 안다고 확신했지만 적용에서 틀린 학생은 전혀 다른 방식으로 복습해야 합니다."
+            description="시험 후 점수만 확인하면 학생이 왜 틀렸는지 알 수 없습니다. 특히 확신하고 틀린 문제는 학생이 이해했다고 느끼지만 실제 적용에서는 무너진다는 신호입니다. 이 구간을 찾아내야 같은 실수를 반복하지 않고 성적 향상에 필요한 복습을 할 수 있습니다."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {problems.map((problem) => (
@@ -312,7 +398,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="진단"
-            title="그래서 먼저 필요한 것은 더 많은 문제풀이가 아니라 정확한 진단입니다."
+            title="진단이 끝나면, 복습 방향이 달라집니다."
             description="학생은 진단 문항을 풀고 확신도, 정오 여부, 체감 난도, 오답 원인을 기록합니다. 이후 리포트는 정답률 뒤에 가려진 착각 구간, 취약 단원, 취약 문항 유형, 복습 우선순위를 보여줍니다."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -323,12 +409,22 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+          <SectionHeading title="진단 전과 진단 후, 공부 방식이 달라집니다." />
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <ComparisonCard title="진단 전" items={beforeItems} />
+            <ComparisonCard title="진단 후" items={afterItems} highlighted />
+          </div>
+        </div>
+      </section>
+
       <section id="report" className="bg-slate-50 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:px-10">
           <SectionHeading
             eyebrow="리포트 예시"
-            title="리포트는 점수표가 아니라 학습 방향표입니다."
-            description="학부모와 학생이 같은 기준으로 약점을 확인할 수 있도록, 수치와 해석을 함께 제공합니다. 단순히 몇 점을 받았는지가 아니라, 어떤 유형에서 왜 흔들리는지를 보여줍니다."
+            title="리포트는 점수표가 아니라 성적 향상을 위한 학습 방향표입니다."
+            description="학부모와 학생이 같은 기준으로 약점을 확인할 수 있도록, 수치와 해석을 함께 제공합니다. 단순히 몇 점을 받았는지가 아니라, 어떤 유형에서 왜 흔들리고 무엇부터 보완해야 하는지를 보여줍니다."
           />
           <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70 sm:p-8">
             <div className="flex flex-col gap-2 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -354,6 +450,16 @@ export default function Home() {
               다음 2주간은 새 개념 진도보다 해당 유형의 근거 찾기와 자료 해석
               훈련이 우선입니다.
             </p>
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+              <h4 className="text-lg font-bold text-slate-950">
+                다음 학습 액션
+              </h4>
+              <ul className="mt-4 space-y-3">
+                {actionItems.map((item) => (
+                  <ActionItem key={item} text={item} />
+                ))}
+              </ul>
+            </div>
             <p className="mt-4 text-sm font-medium text-slate-500">
               실제 리포트는 학생의 응답 결과에 따라 개별 생성됩니다.
             </p>
@@ -383,10 +489,12 @@ export default function Home() {
             {targets.map((target) => (
               <li
                 key={target}
-                className="rounded-2xl border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700 shadow-sm shadow-slate-200/50"
+                className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700 shadow-sm shadow-slate-200/50"
               >
-                <span className="mr-2 font-bold text-blue-700">확인</span>
-                {target}
+                <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-50 text-xs font-bold text-blue-700 ring-1 ring-blue-100">
+                  ✓
+                </span>
+                <span>{target}</span>
               </li>
             ))}
           </ul>
@@ -396,12 +504,11 @@ export default function Home() {
       <section id="apply" className="border-t border-blue-100 bg-gradient-to-b from-blue-50 to-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
           <h2 className="text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
-            통합과학 공부를 시작하기 전, 현재 약점과 복습 우선순위를 먼저
-            확인하세요.
+            통합과학 성적 향상, 먼저 약점 진단부터 시작하세요.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
             내신 점수만으로는 아이의 학습 상태를 충분히 알기 어렵습니다.
-            통합과학 진단을 통해 지금 필요한 복습 방향을 확인하세요.
+            통합과학 메타인지 진단을 통해 지금 필요한 복습 방향을 확인하세요.
           </p>
           <a
             href="/apply"
@@ -409,6 +516,9 @@ export default function Home() {
           >
             진단 신청하기
           </a>
+          <p className="mt-4 text-sm font-medium text-slate-500">
+            현재 신청자 순서대로 진단을 안내하고 있습니다.
+          </p>
         </div>
       </section>
 
