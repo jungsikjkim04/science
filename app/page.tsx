@@ -219,7 +219,7 @@ function SectionHeading({
     <div className={`${centered ? "mx-auto text-center" : ""} max-w-3xl`}>
       {eyebrow ? (
         <p
-          className={`text-sm font-bold ${
+          className={`text-sm font-bold tracking-[0.08em] ${
             inverse ? "text-blue-200" : "text-blue-700"
           }`}
         >
@@ -227,7 +227,7 @@ function SectionHeading({
         </p>
       ) : null}
       <h2
-        className={`mt-3 text-3xl font-bold leading-tight tracking-normal sm:text-4xl ${
+        className={`mt-3 text-[1.75rem] font-bold leading-tight tracking-normal sm:text-4xl ${
           inverse ? "text-white" : "text-slate-950"
         }`}
       >
@@ -235,7 +235,7 @@ function SectionHeading({
       </h2>
       {description ? (
         <p
-          className={`mt-5 text-base leading-8 sm:text-lg ${
+          className={`mt-5 max-w-2xl text-base leading-8 sm:text-lg sm:leading-9 ${
             inverse ? "text-blue-50/75" : "text-slate-600"
           }`}
         >
@@ -248,39 +248,39 @@ function SectionHeading({
 
 function CapabilityCard({ title, description }: CardProps) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
-      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
+    <article className="flex h-full min-h-[210px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
         {title.slice(0, 1)}
       </div>
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+      <p className="mt-3 text-[15px] leading-7 text-slate-600">{description}</p>
     </article>
   );
 }
 
 function ProblemCard({ title, description }: CardProps) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/70">
+    <article className="flex h-full min-h-[210px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/50 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/70">
       <div className="mb-5 h-1.5 w-12 rounded-full bg-blue-600" />
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+      <p className="mt-3 text-[15px] leading-7 text-slate-600">{description}</p>
     </article>
   );
 }
 
 function FeatureCard({ title, description }: CardProps) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-sm shadow-blue-100/60">
+    <article className="flex h-full min-h-[220px] flex-col rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-sm shadow-blue-100/60">
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+      <p className="mt-3 text-[15px] leading-7 text-slate-600">{description}</p>
     </article>
   );
 }
 
 function FlowStep({ number, title, description }: StepProps) {
   return (
-    <article className="relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/50">
-      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-700 text-sm font-bold tabular-nums text-white">
+    <article className="relative z-10 flex h-full min-h-[205px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/50">
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-blue-700 text-sm font-bold tabular-nums text-white shadow-md shadow-blue-200/80">
         {number}
       </div>
       <h3 className="text-lg font-bold text-slate-950">{title}</h3>
@@ -293,7 +293,7 @@ function ReportMetric({ label, value, note }: MetricProps) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
       <dt className="text-sm font-semibold text-slate-500">{label}</dt>
-      <dd className="mt-2 text-2xl font-bold text-blue-700">{value}</dd>
+      <dd className="mt-2 text-[1.65rem] font-bold leading-tight text-blue-700">{value}</dd>
       <p className="mt-2 text-xs font-medium text-slate-400">{note}</p>
     </div>
   );
@@ -301,7 +301,7 @@ function ReportMetric({ label, value, note }: MetricProps) {
 
 function ProcessCard({ number, title, description }: StepProps) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-sm shadow-black/10">
+    <article className="flex h-full min-h-[205px] flex-col rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-sm shadow-black/10">
       <p className="text-sm font-bold tabular-nums text-blue-200">{number}</p>
       <h3 className="mt-5 text-xl font-bold text-white">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-blue-50/80">{description}</p>
@@ -359,16 +359,17 @@ function ActionItem({ text }: { text: string }) {
 export default function Home() {
   return (
     <main className="bg-white text-slate-900">
-      <section className="border-b border-slate-100 bg-gradient-to-b from-blue-50/60 via-white to-white">
-        <div className="mx-auto grid min-h-[720px] max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-24">
+      <section className="relative overflow-hidden border-b border-slate-100 bg-[radial-gradient(circle_at_top_left,rgba(219,234,254,0.9),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#ffffff_70%)]">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
+        <div className="mx-auto grid min-h-[760px] max-w-6xl items-center gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[1.02fr_0.98fr] lg:px-10 lg:py-28">
           <div>
-            <p className="inline-flex rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-bold text-blue-700 shadow-sm shadow-blue-100/80">
+            <p className="inline-flex max-w-full rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-bold text-blue-700 shadow-sm shadow-blue-100/80">
               고1·고2 대상 통합과학 메타인지 진단
             </p>
-            <h1 className="mt-7 max-w-3xl text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-7 max-w-3xl text-[2.45rem] font-bold leading-[1.18] tracking-normal text-slate-950 sm:text-5xl sm:leading-[1.15] lg:text-[3.7rem]">
               통합과학 성적 향상, 먼저 왜 틀리는지부터 진단하세요.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
+            <p className="mt-6 max-w-2xl text-lg leading-9 text-slate-600 sm:text-xl sm:leading-10">
               정답률만으로는 학생의 실력을 정확히 알 수 없습니다. 개념 이해,
               자료 해석, 문제 적용, 오답 원인을 분석해 지금 가장 먼저 보완해야
               할 통합과학 학습 방향을 제시합니다.
@@ -376,13 +377,13 @@ export default function Home() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">
               <a
                 href="#apply"
-                className="inline-flex min-h-[52px] w-full items-center justify-center rounded-xl bg-blue-700 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
+                className="inline-flex min-h-[54px] w-full items-center justify-center rounded-xl bg-blue-700 px-8 py-4 text-base font-bold text-white shadow-xl shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
               >
                 통합과학 진단 시작하기
               </a>
               <a
                 href="#report"
-                className="inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100 sm:w-auto"
+                className="inline-flex min-h-[54px] w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-8 py-4 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100 sm:w-auto"
               >
                 리포트 예시 보기
               </a>
@@ -391,21 +392,21 @@ export default function Home() {
 
           <aside
             aria-label="통합과학 진단 요약 예시"
-            className="rounded-[1.75rem] border border-slate-200 bg-white/85 p-3 shadow-2xl shadow-blue-100/70 backdrop-blur sm:p-5"
+            className="rounded-[1.75rem] border border-slate-200 bg-white/90 p-3 shadow-2xl shadow-blue-100/80 backdrop-blur sm:p-5"
           >
-            <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
+            <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm sm:p-7">
               <div className="border-b border-slate-100 pb-5">
-                <p className="text-sm font-bold text-blue-700">
+                <p className="text-sm font-bold tracking-[0.08em] text-blue-700">
                   진단 리포트 미리보기
                 </p>
-                <h2 className="mt-2 text-2xl font-bold text-slate-950">
+                <h2 className="mt-3 text-2xl font-bold text-slate-950">
                   약점 원인 요약
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   점수보다 먼저 볼 것은 학생이 어떤 역량에서 흔들리는지입니다.
                 </p>
               </div>
-              <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <dl className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {metrics.slice(0, 2).map((metric) => (
                   <ReportMetric key={metric.label} {...metric} />
                 ))}
@@ -424,14 +425,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
+      <section className="bg-white py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="학습 진단"
             title="점수는 결과만 보여줍니다. 진단은 원인을 보여줍니다."
             description="같은 68점이라도 학생마다 필요한 복습은 다릅니다. 어떤 학생은 개념 이해가 부족하고, 어떤 학생은 자료 해석에서 흔들리며, 어떤 학생은 문제 조건을 놓칩니다. 통합과학 메타인지 진단은 점수 뒤에 숨어 있는 약점의 원인을 분석하고, 성적 향상으로 이어질 수 있는 복습 순서를 제시합니다."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {capabilities.map((capability) => (
               <CapabilityCard key={capability.title} {...capability} />
             ))}
@@ -439,14 +440,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
+      <section className="bg-slate-50 py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="학습 문제"
             title="통합과학 공부가 막히는 이유는 학생마다 다릅니다."
             description="시험이 끝난 뒤 점수만 확인하면 학생이 왜 틀렸는지 알 수 없습니다. 개념을 몰라서 틀린 것인지, 자료를 잘못 해석한 것인지, 문제 조건을 놓친 것인지에 따라 복습 방법은 달라져야 합니다."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {problems.map((problem) => (
               <ProblemCard key={problem.title} {...problem} />
             ))}
@@ -454,14 +455,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24">
+      <section className="py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="진단과 복습관리"
             title="진단이 끝나면, 복습 방향이 달라집니다."
             description="학생의 답안, 문항 유형, 정오 여부, 오답 원인을 바탕으로 통합과학 실력을 세부 역량별로 분석합니다. 답에 대한 확신도는 보조 지표로 참고하고, 이후 가장 먼저 보완해야 할 단원과 문항 유형을 정리해 개인별 복습 순서를 제시합니다."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature) => (
               <FeatureCard key={feature.title} {...feature} />
             ))}
@@ -469,15 +470,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
+      <section className="bg-slate-50 py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="성적 향상 구조"
             title="진단 → 보완 → 재진단의 반복이 실력을 만듭니다."
             description="성적 향상은 단순히 문제를 더 많이 푸는 것보다, 반복해서 틀리는 원인을 줄이는 것에서 시작됩니다. 진단 결과를 바탕으로 복습 우선순위를 정하고, 재진단을 통해 같은 약점이 줄었는지 확인합니다."
           />
-          <div className="relative mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-            <div className="absolute left-8 right-8 top-10 hidden h-px bg-blue-100 lg:block" />
+          <div className="relative mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
+            <div className="absolute left-8 right-8 top-10 hidden h-0.5 rounded-full bg-blue-100 lg:block" />
             {improvementSteps.map((step) => (
               <FlowStep key={step.number} {...step} />
             ))}
@@ -485,14 +486,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
+      <section className="bg-white py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="내신과 수능형 학습 연결"
             title="출제 가능 유형과 개인 약점을 함께 봅니다."
             description="통합과학은 내신에서 드러난 약점이 이후 수능형 학습 습관과도 연결될 수 있습니다. 단순히 나올 문제를 예측하는 것이 아니라, 출제 가능성이 높은 유형과 학생 개인의 약점을 결합해 가장 먼저 보완해야 할 학습 순서를 제시합니다."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {planningCards.map((card) => (
               <CapabilityCard key={card.title} {...card} />
             ))}
@@ -500,68 +501,84 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="report" className="bg-slate-50 py-16 sm:py-20 lg:py-24">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:px-10">
+      <section id="report" className="bg-slate-50 py-20 sm:py-24 lg:py-28">
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10">
           <SectionHeading
             eyebrow="리포트 예시"
             title="리포트는 점수표가 아니라 학습 방향표입니다."
             description="학부모와 학생이 같은 기준으로 약점을 확인할 수 있도록, 수치와 해석을 함께 제공합니다. 단순히 몇 점을 받았는지가 아니라, 어떤 역량에서 왜 흔들리고 무엇부터 보완해야 하는지를 보여줍니다."
           />
-          <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70 sm:p-8">
-            <div className="border-b border-slate-200 pb-6">
-              <p className="text-sm font-bold text-blue-700">예시 리포트</p>
-              <h3 className="mt-2 text-2xl font-bold text-slate-950">
-                통합과학 진단 요약
-              </h3>
+          <article className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-2xl shadow-slate-200/80">
+            <div className="border-b border-slate-200 bg-gradient-to-r from-blue-700 to-blue-600 p-6 text-white sm:p-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-sm font-bold tracking-[0.08em] text-blue-100">
+                    예시 리포트
+                  </p>
+                  <h3 className="mt-3 text-2xl font-bold sm:text-3xl">
+                    통합과학 진단 요약
+                  </h3>
+                </div>
+                <span className="inline-flex w-fit rounded-full bg-white/15 px-4 py-2 text-xs font-bold text-blue-50 ring-1 ring-white/20">
+                  학습 방향 리포트
+                </span>
+              </div>
             </div>
-            <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-              {metrics.map((metric) => (
-                <ReportMetric key={metric.label} {...metric} />
-              ))}
-            </dl>
-            <p className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm leading-7 text-slate-700 sm:p-6 sm:text-base sm:leading-8">
-              전체 정답률은 68%입니다. 학생은 기본 개념 문항에서는 비교적
-              안정적인 모습을 보였지만, 자료 해석형 문항과 조건 적용형 문항에서
-              약점이 나타났습니다. 특히 에너지 전환 영역에서 문제의 조건을
-              자료와 연결하는 과정이 불안정했습니다. 다음 2주간은 새 개념
-              진도보다 에너지 전환 관련 자료 해석형 문항을 우선 복습하는 것이
-              적절합니다.
-            </p>
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-              <h4 className="text-lg font-bold text-slate-950">
-                다음 학습 액션
-              </h4>
-              <ul className="mt-4 space-y-3">
-                {actionItems.map((item) => (
-                  <ActionItem key={item} text={item} />
+            <div className="p-5 sm:p-8">
+              <dl className="grid gap-4 sm:grid-cols-2">
+                {metrics.map((metric) => (
+                  <ReportMetric key={metric.label} {...metric} />
                 ))}
-              </ul>
+              </dl>
+              <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50/80 p-5 sm:p-6">
+                <p className="text-sm font-bold tracking-[0.08em] text-blue-700">
+                  학부모 요약
+                </p>
+                <p className="mt-3 text-sm leading-8 text-slate-700 sm:text-base sm:leading-8">
+                  전체 정답률은 68%입니다. 학생은 기본 개념 문항에서는 비교적
+                  안정적인 모습을 보였지만, 자료 해석형 문항과 조건 적용형 문항에서
+                  약점이 나타났습니다. 특히 에너지 전환 영역에서 문제의 조건을
+                  자료와 연결하는 과정이 불안정했습니다. 다음 2주간은 새 개념
+                  진도보다 에너지 전환 관련 자료 해석형 문항을 우선 복습하는 것이
+                  적절합니다.
+                </p>
+              </div>
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+                <h4 className="text-lg font-bold text-slate-950">
+                  다음 학습 액션
+                </h4>
+                <ul className="mt-4 space-y-3">
+                  {actionItems.map((item) => (
+                    <ActionItem key={item} text={item} />
+                  ))}
+                </ul>
+              </div>
+              <p className="mt-5 text-sm font-medium text-slate-500">
+                실제 리포트는 학생의 진단 결과에 따라 개별 생성됩니다.
+              </p>
             </div>
-            <p className="mt-4 text-sm font-medium text-slate-500">
-              실제 리포트는 학생의 진단 결과에 따라 개별 생성됩니다.
-            </p>
           </article>
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
+      <section className="bg-white py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading title="진단 전과 진단 후, 공부 방식이 달라집니다." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
             <BeforeAfterCard title="진단 전" items={beforeItems} />
             <BeforeAfterCard title="진단 후" items={afterItems} highlighted />
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-950 py-16 sm:py-20 lg:py-24">
+      <section className="bg-slate-950 py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="진단 절차"
             title="진단은 이렇게 진행됩니다."
             inverse
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {processSteps.map((step) => (
               <ProcessCard key={step.number} {...step} />
             ))}
@@ -569,10 +586,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24">
+      <section className="py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <SectionHeading title="이런 학생에게 적합합니다." />
-          <ul className="mt-8 grid gap-4 md:grid-cols-2">
+          <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {targets.map((target) => (
               <li
                 key={target}
@@ -590,10 +607,10 @@ export default function Home() {
 
       <section
         id="apply"
-        className="border-t border-blue-100 bg-gradient-to-b from-blue-50 to-white py-16 sm:py-20 lg:py-24"
+        className="border-t border-blue-100 bg-gradient-to-b from-blue-50 to-white py-20 sm:py-24 lg:py-28"
       >
         <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
-          <h2 className="text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+          <h2 className="text-[1.85rem] font-bold leading-tight text-slate-950 sm:text-4xl">
             통합과학 성적 향상, 먼저 약점 원인 진단부터 시작하세요.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
@@ -602,7 +619,7 @@ export default function Home() {
           </p>
           <a
             href="/apply"
-            className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center rounded-xl bg-blue-700 px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
+            className="mt-8 inline-flex min-h-[54px] w-full items-center justify-center rounded-xl bg-blue-700 px-9 py-4 text-base font-bold text-white shadow-xl shadow-blue-200/80 transition hover:-translate-y-0.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
           >
             통합과학 진단 시작하기
           </a>
