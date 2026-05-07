@@ -14,4 +14,11 @@ html {
 body {
   margin: 0;
   background: #ffffff;
+  word-break: keep-all;
+  text-rendering: optimizeLegibility;
+}
+
+p,
+li {
+  overflow-wrap: break-word;
 }
